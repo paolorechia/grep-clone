@@ -18,17 +18,13 @@ impl Args {
     }
 }
 
-pub fn run(query: String, file_path: String) -> Result<String, Box<dyn Error>>{
+pub fn run(query: String, file_path: String) -> Result<(), Box<dyn Error>>{
     println!("Searching for {}", query);
     println!("In file {}", file_path);
 
-    let contents = fs::read_to_string(file_path)
-        .expect("File should have been read");
+    let contents = fs::read_to_string(file_path)?;
 
     println!("With text:\n{contents}");
-    Ok(String::from("OK!"))
-}
 
-pub fn handle_error(_: Result<String, Box<dyn Error>>) {
-
+    Ok(())
 }
