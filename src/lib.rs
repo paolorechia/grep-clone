@@ -6,10 +6,15 @@ pub struct Args {
     pub file_path: String
 }
 
-pub fn parse_args(args: &[String]) -> Args {
-    Args {
-        query:  args[1].clone(), 
-        file_path: args[2].clone()
+impl Args {
+    pub fn build(args: &[String]) -> Result<Args, &'static str> {
+        if args.len() < 3 {
+            return Err("Not enough arguments");
+        }
+        Ok(Args {
+            query:  args[1].clone(), 
+            file_path: args[2].clone()
+        })
     }
 }
 
@@ -22,6 +27,10 @@ pub fn run(query: String, file_path: String) -> Result<String, Box<dyn Error>>{
 
     println!("With text:\n{contents}");
     Ok(String::from("OK!"))
+}
+
+pub fn handle_parse_error(_: Result<Args, &'static str>) {
+
 }
 
 pub fn handle_error(_: Result<String, Box<dyn Error>>) {
