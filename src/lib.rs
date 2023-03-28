@@ -29,10 +29,6 @@ pub fn run(query: String, file_path: String) -> Result<String, Box<dyn Error>>{
     Ok(String::from("OK!"))
 }
 
-pub fn handle_parse_error(_: Result<Args, &'static str>) {
-
-}
-
 pub fn handle_error(_: Result<String, Box<dyn Error>>) {
 
 }
