@@ -1,15 +1,19 @@
 use std::error::Error;
 use std::fs;
 
-
-pub fn parse_args(args: &[String]) -> (&str, &str) {
-    let query = &args[1];
-    let file_path = &args[2];
-
-    (query, file_path)
+pub struct Args {
+    pub query: String,
+    pub file_path: String
 }
 
-pub fn run(query: &str, file_path: &str) -> Result<String, Box<dyn Error>>{
+pub fn parse_args(args: &[String]) -> Args {
+    Args {
+        query:  args[1].clone(), 
+        file_path: args[2].clone()
+    }
+}
+
+pub fn run(query: String, file_path: String) -> Result<String, Box<dyn Error>>{
     println!("Searching for {}", query);
     println!("In file {}", file_path);
 
