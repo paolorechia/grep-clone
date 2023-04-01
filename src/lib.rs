@@ -1,5 +1,7 @@
 use std::error::Error;
 use std::fs;
+use std::env;
+
 
 pub struct Args {
     pub query: String,
@@ -15,7 +17,7 @@ impl Args {
         Ok(Args {
             query:  args[1].clone(), 
             file_path: args[2].clone(),
-            ignore_case: false
+            ignore_case: env::var("IGNORE_CASE").is_ok()
         })
     }
 }
