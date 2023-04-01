@@ -18,13 +18,35 @@ impl Args {
     }
 }
 
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let lines = contents.split("\n");
+    let mut result: Vec<&str> = vec![];
+
+    for line in lines {
+        if line.contains(query) {
+            result.push(&line);
+        }
+    }
+    result
+}
+
 pub fn run(query: String, file_path: String) -> Result<(), Box<dyn Error>>{
-    println!("Searching for {}", query);
-    println!("In file {}", file_path);
-
     let contents = fs::read_to_string(file_path)?;
-
-    println!("With text:\n{contents}");
-
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn one_result() {
+        let query = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
 }
