@@ -19,10 +19,9 @@ impl Args {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let lines = contents.split("\n");
-    let mut result: Vec<&str> = vec![];
+    let mut result: Vec<&str> = Vec::new();
 
-    for line in lines {
+    for line in contents.lines() {
         if line.contains(query) {
             result.push(&line);
         }
