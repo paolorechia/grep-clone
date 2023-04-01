@@ -3,7 +3,8 @@ use std::fs;
 
 pub struct Args {
     pub query: String,
-    pub file_path: String
+    pub file_path: String,
+    pub ignore_case: bool
 }
 
 impl Args {
@@ -13,7 +14,8 @@ impl Args {
         }
         Ok(Args {
             query:  args[1].clone(), 
-            file_path: args[2].clone()
+            file_path: args[2].clone(),
+            ignore_case: false
         })
     }
 }
@@ -43,9 +45,16 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     result
 }
 
-pub fn run(query: String, file_path: String) -> Result<(), Box<dyn Error>>{
+pub fn run(query: String, file_path: String, ignore_case: bool) -> Result<(), Box<dyn Error>>{
     let contents = fs::read_to_string(file_path)?;
-    let result = search(&query, &contents);
+
+    let result: Vec<&str>;
+
+    if ignore_case {
+        result = case_insensitive_search(&query, &contents);
+    } else {
+        result = search(&query, &contents);
+    }
     for line in result {
         println!("{line}");
     }
