@@ -45,15 +45,15 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     result
 }
 
-pub fn run(query: String, file_path: String, ignore_case: bool) -> Result<(), Box<dyn Error>>{
-    let contents = fs::read_to_string(file_path)?;
+pub fn run(args: Args) -> Result<(), Box<dyn Error>>{
+    let contents = fs::read_to_string(args.file_path)?;
 
     let result: Vec<&str>;
 
-    if ignore_case {
-        result = case_insensitive_search(&query, &contents);
+    if args.ignore_case {
+        result = case_insensitive_search(&args.query, &contents);
     } else {
-        result = search(&query, &contents);
+        result = search(&args.query, &contents);
     }
     for line in result {
         println!("{line}");

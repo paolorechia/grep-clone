@@ -11,7 +11,7 @@ fn main() {
         process::exit(1);
     });
 
-    let result = grep_clone::run(args.query, args.file_path, false);
+    let result = grep_clone::run(args);
 
     if let Err(e) = result {
         println!("Application error: {e}");
