@@ -14,10 +14,19 @@ impl Args {
         if args.len() < 3 {
             return Err("Not enough arguments");
         }
+        let mut ignore_case: bool = false;
+        if env::var("IGNORE_CASE").is_ok() {
+            ignore_case = true;
+        }
+        if args.len() >= 4 {
+            if args[3].contains("-i") || args[3].contains("--ignore-case") {
+                ignore_case = true;
+            }
+        }
         Ok(Args {
             query:  args[1].clone(), 
             file_path: args[2].clone(),
-            ignore_case: env::var("IGNORE_CASE").is_ok()
+            ignore_case: ignore_case
         })
     }
 }
