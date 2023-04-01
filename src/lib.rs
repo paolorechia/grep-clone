@@ -31,6 +31,10 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 pub fn run(query: String, file_path: String) -> Result<(), Box<dyn Error>>{
     let contents = fs::read_to_string(file_path)?;
+    let result = search(&query, &contents);
+    for line in result {
+        println!("{line}");
+    }
     Ok(())
 }
 
