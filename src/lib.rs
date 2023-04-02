@@ -10,22 +10,31 @@ pub struct Args {
 }
 
 impl Args {
-    pub fn build(args: &[String]) -> Result<Args, &'static str> {
-        if args.len() < 3 {
-            return Err("Not enough arguments");
-        }
+    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Args, &'static str> {
+        args.next();
+
+        let query = match args.next() {
+            Some(val) => val,
+            None => return Err("Missing query")
+        };
+
+        let file_path = match args.next() {
+            Some(val ) => val,
+            None => return Err("Missing file path")
+        };
+        
         let mut ignore_case: bool = false;
         if env::var("IGNORE_CASE").is_ok() {
             ignore_case = true;
         }
-        if args.len() >= 4 {
-            if args[3].contains("-i") || args[3].contains("--ignore-case") {
-                ignore_case = true;
-            }
-        }
+        // if args.len() >= 4 {
+        //     if args[3].contains("-i") || args[3].contains("--ignore-case") {
+        //         ignore_case = true;
+        //     }
+        // }
         Ok(Args {
-            query:  args[1].clone(), 
-            file_path: args[2].clone(),
+            query:  query,
+            file_path: file_path,
             ignore_case: ignore_case
         })
     }
