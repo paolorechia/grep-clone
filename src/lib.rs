@@ -71,10 +71,18 @@ impl Args {
 
 /// # Case insensitive search
 ///
+/// Search ignoring case.
+/// 
+/// # Example
 ///
-///
-///
-///
+/// ```
+/// let contents = "
+/// who is
+/// this?
+/// ";
+/// let query = "who";
+/// assert_eq!(grep_clone::case_insensitive_search(query, contents), vec!["who is"]);
+/// ```
 pub fn case_insensitive_search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let query = query.to_lowercase();
 
@@ -84,6 +92,21 @@ pub fn case_insensitive_search<'a>(query: &str, contents: &'a str) -> Vec<&'a st
         .collect()
 }
 
+/// # Search
+///
+/// Search taking into account the character case.
+/// 
+/// # Example
+///
+/// ```
+/// let contents = "
+/// who is
+/// this?
+/// Who are you?
+/// ";
+/// let query = "who";
+/// assert_eq!(grep_clone::search(query, contents), vec!["who is"]);
+/// ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
@@ -91,6 +114,22 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
         .collect()
 }
 
+
+/// # Run
+///
+/// Entrypoint used by binary executable.
+/// 
+/// # Example
+///
+/// ```
+/// let iter = vec![
+///     String::from("grep_clone"),
+///     String::from("Who"),
+///     String::from("poem.txt"),
+/// ].into_iter();
+/// let args = grep_clone::Args::build(iter).unwrap();
+/// grep_clone::run(args);
+/// ```
 pub fn run(args: Args) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(args.file_path)?;
 
