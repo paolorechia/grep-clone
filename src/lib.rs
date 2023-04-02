@@ -27,15 +27,16 @@ impl Args {
         if env::var("IGNORE_CASE").is_ok() {
             ignore_case = true;
         }
-        // if args.len() >= 4 {
-        //     if args[3].contains("-i") || args[3].contains("--ignore-case") {
-        //         ignore_case = true;
-        //     }
-        // }
+
+        let next = args.next().unwrap_or(String::from(""));
+        if next.contains("-i") || next.contains("--ignore-case") {
+            ignore_case = true;
+        }
+
         Ok(Args {
-            query:  query,
-            file_path: file_path,
-            ignore_case: ignore_case
+            query,
+            file_path,
+            ignore_case
         })
     }
 }
