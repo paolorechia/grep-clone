@@ -15,11 +15,11 @@ grep-clone string file.txt -i
 
 Or
 ```
-mini-grep string file.txt --ignore-case
+grep-clone string file.txt --ignore-case
 ```
 
 Or
 ```
 export IGNORE_CASE=true
-mini-grep string file.txt
+grep-clone string file.txt
 ```
