@@ -56,15 +56,14 @@ pub fn case_insensitive_search<'a>(query: &str, contents: &'a str) -> Vec<&'a st
 
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut result: Vec<&str> = Vec::new();
-
-    for line in contents.lines() {
-        if line.contains(query) {
-            result.push(line);
-        }
-    }
-    result
+    contents
+        .lines()
+        .filter(|line| {
+            line.contains(query)
+        })
+        .collect()
 }
+
 
 pub fn run(args: Args) -> Result<(), Box<dyn Error>>{
     let contents = fs::read_to_string(args.file_path)?;
